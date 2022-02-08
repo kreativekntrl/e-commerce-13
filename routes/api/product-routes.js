@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
       return;
     }
 
-    res.status(200).json(Data);
+    res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -80,7 +80,12 @@ router.post('/', (req, res) => {
 // update product
 router.put('/:id', (req, res) => {
   // update product data
-  Product.update(req.body, {
+  Product.update({
+      product_name: req.body.product_name,
+      price: req.body.price,
+      stock: req.body.stock,
+      category_id: req.body.category_name,
+    }, {
       where: {
         id: req.params.id,
       },
@@ -128,6 +133,7 @@ router.put('/:id', (req, res) => {
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
+      // console.log(err);
       res.status(400).json(err);
     });
 });
